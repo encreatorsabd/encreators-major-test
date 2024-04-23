@@ -1,0 +1,163 @@
+<% if (locals.messages) { %>
+  <div id="flashMessages" class="messages mt-4 mx-auto max-w-md">
+    <ul class="messages">
+      <% Object.keys(messages).forEach((key) => { %> 
+        <% messages[key].forEach((message) => { %>
+          <li class="p-2 rounded">
+            <% if (key === 'error') { %>
+              <!-- <div class="bg-red-500 text-white p-2 rounded"><%= message %></div> -->
+              <div class="rounded-md border-l-4 border-red-500 bg-red-100 p-4">
+                <div class="flex items-center justify-between space-x-4">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 text-red-600"
+                    >
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-red-600">
+                      <%= message %>
+                    </p>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 cursor-pointer text-red-600"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+            <% } else if (key === 'warning') { %>
+              <!-- <div class="bg-yellow-500 text-black p-2 rounded"><%= message %></div> -->
+              <div class="rounded-md border-l-4 border-yellow-500 bg-yellow-100 p-4">
+                <div class="flex items-center justify-between space-x-4">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 text-yellow-600"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-yellow-600">
+                      <%= message %>
+                    </p>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 cursor-pointer text-yellow-600"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+            <% } else if (key === 'info') { %>
+              <!-- <div class="bg-green-500 text-white p-2 rounded"><%= message %></div> -->
+              <div class="rounded-md border-l-4 border-green-500 bg-green-100 p-4">
+                <div class="flex items-center justify-between space-x-4">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 text-green-600"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-green-600">
+                      <%= message %>
+                    </p>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="h-6 w-6 cursor-pointer text-green-600"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+            <% } %>
+          </li>
+        <% }) %> 
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<script>
+  // Automatically remove flash messages after 5 seconds
+  setTimeout(function() {
+    const flashMessages = document.getElementById('flashMessages');
+    if (flashMessages) {
+      flashMessages.remove();
+    }
+  }, 5000); // Adjust the time (in milliseconds) as needed
+</script>

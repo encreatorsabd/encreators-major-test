@@ -1,0 +1,138 @@
+<%- include ('layouts/header') %>
+<div class="p-4">
+  <p class="text-3xl font-bold">Products</p>
+  <div class="grid grid-cols-4 gap-4 p-4">
+    <% services.forEach(service=> { %>
+    <div class="bg-gray-950 border rounded-lg shadow-md p-4 relative">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-white">
+          <%= service.name %>
+        </h3>
+        <p class="text-white italic">
+          <%= service.description %>
+        </p>
+        <p class="text-white mt-4 font-bold">&dollar;<%= service.price %>
+        </p>
+        <button type="button" onclick="openModal('<%= service.name %>', '<%= service.price %>', '<%= service._id %>')"
+          class="mt-5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+          Buy
+        </button>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center hidden">
+  <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+  <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+    <div class="modal-content py-4 text-left px-6 max-h-80 overflow-y-auto">
+      <!-- Title -->
+      <div class="flex justify-between items-center pb-3">
+        <p class="text-2xl font-bold">Purchase</p>
+        <button onclick="closeModal()"
+          class="modal-close cursor-pointer z-50 focus:outline-none">&times;</button>
+      </div>
+      <!-- Form -->
+      <form id="payment-form" action="/client/pay-amount" method="POST">
+        <!-- Service Info -->
+        <input type="hidden" name="service_id" id="service-id" value="">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            First name
+          </label>
+          <input id="first-name" name="first_name" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Manoj">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Last name
+          </label>
+          <input id="last-name" name="last_name" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Halugona">
+        </div>
+        <div class="flex mb-4">
+          <div class="w-1/2 mr-2">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              City
+            </label>
+            <input id="address-city" name="address_city" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Coachella">
+          </div>
+          <div class="w-1/2 ml-2">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              State
+            </label>
+            <input id="address-state" name="address_state" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="SA">
+          </div>
+        </div>
+        <div class="flex mb-4">
+          <div class="w-1/2 mr-2">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              ZIP
+            </label>
+            <input id="address-zip" name="address_zip" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="92236">
+          </div>
+          <div class="w-1/2 ml-2">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Country
+            </label>
+            <select name="address_country" id="address-country" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="IN">India</option>
+              <option value="USA" selected>United States of America</option>
+              <option value="UK">United Kingdom</option>
+              <option value="UAE">United Arab Emirates</option>
+            </select>
+          </div>
+        </div>
+        <!-- Card Info -->
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Card Number
+          </label>
+          <input id="card-number" name="card_number" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="1234 5678 9012 3456" pattern="[0-9]*" inputmode="numeric">
+        </div>
+        <div class="flex mb-4">
+          <div class="w-1/2 mr-2">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              CVV
+            </label>
+            <input id="cvv" name="cvv" class="field appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="123" pattern="[0-9]*" inputmode="numeric">
+          </div>
+          <!-- Add more card details fields here if needed -->
+        </div>
+        <!-- Payment Button -->
+        <button type="submit"
+          class="w-full bg-gray-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Pay <span id="pay-amount"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ('layouts/footer') %>
+
+<script>
+  function openModal(serviceName, servicePrice, serviceID) {
+    var modal = document.getElementById("myModal");
+    var amountSpan = document.getElementById("pay-amount");
+    var serviceIDInput = document.getElementById("service-id");
+
+    amountSpan.textContent = "$" + servicePrice;
+    serviceIDInput.value = serviceID;
+
+    modal.classList.remove("hidden");
+  }
+
+  function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.classList.add("hidden");
+  }
+
+  // Close the modal if the user clicks outside of it
+  window.onclick = function (event) {
+    var modal = document.getElementById("myModal");
+    if (event.target == modal) {
+      modal.classList.add("hidden");
+    }
+  }
+</script>

@@ -1,0 +1,156 @@
+<%- include ('layouts/header') %>
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Adjust opacity to control blur */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #searchInput {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="p-4">
+  <h2 class="text-3xl font-semibold">Employees</h2>
+  <p class="mt-1 text-sm text-gray-700">
+    This is a list of all employees. You can edit Employee Data
+  </p>
+</div>
+
+<!-- Search input field -->
+<input
+  type="text"
+  id="searchInput"
+  placeholder="Search by email"
+  autocomplete="off"
+  class="ml-3"
+/>
+
+<div class="overflow-x-auto p-4">
+  <table id="employeeTable" class="table-auto w-full border-collapse border border-gray-200">
+    <thead>
+      <tr>
+        <th class="px-4 py-2 bg-gray-100 border border-gray-200">ID</th>
+        <th class="px-4 py-2 bg-gray-100 border border-gray-200">Email</th>
+        <th class="px-4 py-2 bg-gray-100 border border-gray-200">Phone</th>
+        <th class="px-4 py-2 bg-gray-100 border border-gray-200">Job Title</th>
+        <th class="px-4 py-2 bg-gray-100 border border-gray-200">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% employees.forEach(employee=> { %>
+
+        <tr>
+          <td class="px-4 py-2 border border-gray-200">
+            <%= employee.employeeId %>
+          </td>
+          <td class="px-4 py-2 border border-gray-200">
+            <form action="/admin/update-email/<%= employee.email %>" method="POST">
+              <input type="email" name="newEmail" value="<%= employee.email %>"
+                class="w-full px-2 py-1 border rounded-md transition duration-200 focus:border-blue-500 focus:outline-none">
+              <button type="submit"
+                class="mt-3 bg-black hover:bg-slate-800 text-white  py-2 px-4 rounded">Update</button>
+            </form>
+          </td>
+          <td class="px-4 py-2 border border-gray-200">
+            <%= employee.phone %>
+          </td>
+          <td class="px-4 py-2 border border-gray-200">
+            <form action="/admin/update-jobtitle/<%= employee.email %>" method="POST">
+              <input type="text" name="newJobTitle" value="<%= employee.jobTitle %>"
+                class="w-full px-2 py-1 border rounded-md transition duration-200 focus:border-blue-500 focus:outline-none">
+              <button type="submit"
+                class="mt-3 bg-black hover:bg-slate-800 text-white  py-2 px-4 rounded">Update</button>
+            </form>
+          </td>
+          <td class="px-4 py-2 border border-gray-200">
+            <!-- Add department update form here -->
+            <!-- Update department form -->
+            <form action="/admin/update-department/<%= employee.email %>" method="POST">
+              <select name="department"
+                class="w-full px-2 py-1 border rounded-md transition duration-200 focus:border-blue-500 focus:outline-none">
+                <% departments.forEach(department=> { %>
+                  <!-- Add 'selected' attribute if the current department matches the employee's department -->
+                  <option value="<%= department._id %>" <%=department._id.toString()===employee.department.toString()
+                    ? 'selected' : '' %>>
+                    <%= department.department_name %>
+                  </option>
+                  <% }) %>
+              </select>
+              <button type="submit"
+                class="mt-3 bg-black hover:bg-slate-800 text-white py-2 px-4 rounded">Update</button>
+            </form>
+
+          </td>
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<%- include ('layouts/footer') %>
+
+<script>
+  // Function to filter table rows based on search input
+  function filterTable() {
+    // Get input value and convert to lowercase for case-insensitive search
+    var input = document.getElementById("searchInput").value.toLowerCase();
+    var rows = document.querySelectorAll("#employeeTable tbody tr");
+
+    rows.forEach((row) => {
+      // Get the employee ID cell value
+      var employeeId = row.cells[0].textContent.toLowerCase();
+      // Check if the employee ID contains the search query
+      if (employeeId.includes(input)) {
+        row.style.display = ""; // Show the row
+      } else {
+        row.style.display = "none"; // Hide the row
+      }
+    });
+  }
+
+  // Event listener for input change
+  document.getElementById("searchInput").addEventListener("input", filterTable);
+</script>

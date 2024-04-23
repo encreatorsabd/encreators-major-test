@@ -1,0 +1,42 @@
+<%- include('layouts/header') %>
+
+<h1 class="text-2xl font-bold mb-4">Admin Tickets</h1>
+
+<% requestsByDepartment.forEach(department => { %>
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-2">
+            <%= department.department.department_name %>
+        </h2>
+        <ul>
+            <% department.requests.forEach(request => { %>
+                <li class="border-b border-gray-200 py-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-lg font-semibold mb-1">
+                            <%= request.serviceName %>
+                        </p>
+                        <p class="text-gray-600">Request-ID: <%= request._id %></p>
+                        <p class="text-gray-600">Client: <%= request.userEmail %></p>
+                        <p class="text-gray-600">Status: <%= request.status %></p>
+                    </div>
+                    <% if (!request.assignedTo) { %>
+                        <form action="/admin/allot-request" method="POST" class="flex items-center space-x-2">
+                            <input type="hidden" name="requestId" value="<%= request._id %>">
+                            <input type="hidden" name="requestUserID" value="<%= request.requestUserId %>">
+                            <input type="hidden" name="departmentId" value="<%= request.departmentId %>">
+                            <select name="employeeId" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none">
+                                <% department.employees.forEach(employee => { %>
+                                    <option value="<%= employee._id %>"><%= employee.email %></option>
+                                <% }); %>
+                            </select>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">Allot</button>
+                        </form>
+                    <% } else { %>
+                        <p class="text-gray-600">Assigned to: <%= request.assignedTo %></p>
+                    <% } %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+<% }); %>
+
+<%- include('layouts/footer') %>

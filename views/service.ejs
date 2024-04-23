@@ -1,0 +1,151 @@
+<%- include ('layouts/header') %>
+
+<div class="flex items-center justify-between p-4">
+  <p class="text-4xl font-bold">Our Products</p>
+  <!-- Button to Open Modal -->
+  <button
+    id="openModalBtn"
+    class="bg-gray-950 text-white px-4 py-2 rounded-md hover:bg-slate-900"
+  >
+    Add Service
+  </button>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="bg-zinc-800 bg-opacity-50 fixed inset-0"></div>
+  
+      <!-- Modal content -->
+      <div class="bg-zinc-800 rounded-lg overflow-hidden shadow-xl relative z-20 max-w-md w-full">
+        <!-- Modal Header -->
+        <div class="p-4 bg-zinc-800 text-white">
+          <h2 class="text-xl font-bold">Add New Service</h2>
+          <!-- Close Button -->
+          <button id="closeModalBtn" class="absolute top-4 right-4 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="p-4">
+          <!-- Add Service Form -->
+          <form action="/admin/add-service" method="POST" id="addServiceForm">
+            <!-- Input fields for service details -->
+            <div class="mb-4">
+              <label for="serviceName" class="block text-sm font-medium text-white">Product Name</label>
+              <input type="text" name="name" id="serviceName" autocomplete="off" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+            </div>
+            <div class="mb-4">
+              <label for="serviceDescription" class="block text-sm font-medium text-white">Product Description</label>
+              <textarea name="description" id="serviceDescription" rows="3" autocomplete="off" required class="mt-1 p-2 border border-gray-300 rounded-md w-full"></textarea>
+            </div>
+            <div class="mb-4">
+              <label for="servicePrice" class="block text-sm font-medium text-white">Product Price</label>
+              <input type="number" name="price" id="servicePrice" autocomplete="off" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+            </div>
+            <div class="mb-4">
+              <label for="department" class="block text-sm font-medium text-white">Department</label>
+              <select name="department" id="department" required class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                <% departments.forEach(department=> { %>
+                <option value="<%= department._id %>"><%= department.department_name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <!-- Submit Button -->
+            <div class="text-center">
+              <button type="submit" class="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-100">Add Service</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<div class="p-4">
+  <% departments.forEach(department=> { const departmentServices =
+  services.filter(service => service.department._id.toString() ===
+  department._id.toString()); if (departmentServices.length > 0) { %>
+  <div class="mt-6">
+    <h2 class="text-3xl font-bold mb-2"><%= department.department_name %></h2>
+    <div class="grid grid-cols-4 gap-4">
+      <% departmentServices.forEach(service=> { %>
+        <div class="bg-gray-950 border rounded-lg shadow-md p-4 relative">
+            <div class="mb-5 p-4">
+              <h3 class="text-lg font-semibold text-white"><%= service.name %></h3>
+              <p class="text-white italic"><%= service.description %></p>
+              <p class="text-white mt-4 font-bold">&dollar;<%= service.price %></p>
+            </div>
+            <div class="absolute bottom-0 right-0 p-2">
+                
+              <!-- Edit and Delete buttons with customized styles and icons -->
+              <div class="flex space-x-2">
+                
+                <!-- Edit button with customized style and icon -->
+                <button type="button" class="editServiceBtn bg-blue-500 rounded-full px-3 py-1 ">
+                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                      </svg>
+                      
+                </button>
+                <!-- Delete button with customized style and icon -->
+                <form id="deleteServiceForm-<%= service._id %>" class="deleteServiceForm" action="/admin/delete-service/<%= service._id %>" method="POST">
+                  <button type="button" class="deleteServiceBtn text-white focus:outline-none bg-red-500 rounded-full px-3 py-1 " data-service-id="<%= service._id %>">
+                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                      </svg>                      
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+      <% }) %>
+    </div>
+  </div>
+  <% } }) %>
+</div>
+
+<%- include ('layouts/footer') %>
+
+<script>
+  // Get the modal
+  var modal = document.getElementById("myModal");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("openModalBtn");
+
+  // Get the button that closes the modal
+  var closeBtn = document.getElementById("closeModalBtn");
+
+  // When the user clicks the button, open the modal
+  btn.addEventListener("click", function () {
+    modal.classList.remove("hidden");
+  });
+
+  // When the user clicks on the close button, close the modal
+  closeBtn.addEventListener("click", function () {
+    modal.classList.add("hidden");
+  });
+
+  // When the user clicks anywhere outside of the modal content, close it
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
+
+  // Add event listener to handle delete button click
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("deleteServiceBtn")) {
+      const serviceId = event.target.dataset.serviceId;
+      if (confirm("Are you sure you want to delete this service?")) {
+        const form = document.getElementById("deleteServiceForm-" + serviceId);
+        form.submit();
+      }
+    }
+  });
+</script>

@@ -1,0 +1,80 @@
+<%- include ('layouts/header') %>
+<style>
+    #searchInput {
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 50%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+</style>
+<div class="mx-auto max-w-7xl px-4 py-4">
+    <p class="text-3xl font-bold mb-4">Clients</p>
+    <!-- Search input field -->
+    <input type="text" id="searchInput" placeholder="Search by email" autocomplete="off" class="ml-3">
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+            <thead class="bg-black text-white">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Phone</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Actions</th> <!-- Added Actions column -->
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <% users.forEach(user=> { %>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= user.name %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= user.email %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <%= user.phone %>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap"> <!-- Added Actions column -->
+                        <form action="/admin/delete-client" method="POST"> <!-- Form to trigger user deletion -->
+                            <input type="hidden" name="id" value="<%= user._id %>"> <!-- Hidden input field to send user ID -->
+                            <button type="submit" class="text-red-600 hover:text-red-900">Delete</button> <!-- Delete button -->
+                        </form>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include ('layouts/footer') %>
+
+<script>
+    // Function to filter table rows based on search input
+    function filterTable() {
+        // Get input value and convert to lowercase for case-insensitive search
+        var input = document.getElementById('searchInput').value.toLowerCase();
+        var rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            // Get email cell content within the row
+            var emailCell = row.querySelector('td:nth-child(2)');
+            if (emailCell) {
+                // Get the first character of the email
+                var firstLetter = emailCell.textContent.trim().toLowerCase().charAt(0);
+                // Check if the input is empty or matches the first character of the email
+                if (input === "" || firstLetter === input) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        });
+    }
+
+    // Event listener for input change
+    document.getElementById('searchInput').addEventListener('input', filterTable);
+</script>
+

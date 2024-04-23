@@ -1,0 +1,57 @@
+<!-- chat.ejs -->
+
+<%- include('layouts/header') %>
+
+<div class="flex p-4">
+  <div class="w-1/2 mr-4">
+    <form action="/user/emp-send" method="POST">
+      <label for="toAddress" class="block text-gray-700">To:</label>
+      <select id="toAddress" name="toUserId" class="w-full border rounded-lg px-4 py-2 mb-4">
+        <% users.forEach(user => { %>
+          <option value="<%= user._id %>"><%= user.email %></option>
+        <% }); %>
+      </select>
+
+      <label for="message" class="block text-gray-700">Message:</label>
+      <textarea id="message" name="message" rows="4" class="w-full border rounded-lg px-4 py-2 mb-4"></textarea>
+
+      <button type="submit" class="bg-zinc-950 text-white px-6 py-2 rounded-lg">Send</button>
+    </form>
+  </div>
+  <div class="w-1/2 bg-gray-200 p-4 rounded-lg">
+    <div class="h-full overflow-y-auto">
+      <div class="flex mb-4">
+        <button id="inbox-tab" class="tablink bg-gray-300 text-gray-700 px-6 py-2 rounded-lg mr-4 focus:outline-none" onclick="openTab('inbox')">Inbox</button>
+        <button id="sent-tab" class="tablink bg-gray-300 text-gray-700 px-6 py-2 rounded-lg focus:outline-none" onclick="openTab('sent')">Sent</button>
+      </div>
+      <div id="inbox" class="tabcontent">
+        <% received.forEach(message => { %>
+          <div class="mb-4">
+            <p class="font-semibold">From: <%= message.sender_email %></p>
+            <p><%= message.message %></p>
+          </div>
+        <% }); %>
+      </div>
+      <div id="sent" class="tabcontent" style="display: none;">
+        <% sent.forEach(message => { %>
+          <div class="mb-4">
+            <p class="font-semibold">To: <%= message.receiver_email %></p>
+            <p><%= message.message %></p>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('layouts/footer') %>
+
+<script>
+  function openTab(tabName) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+  }
+</script>

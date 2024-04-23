@@ -1,0 +1,172 @@
+
+<aside
+  class="sticky top-0 flex h-screen w-64 flex-col overflow-y-auto border-r bg-zinc-950 px-4 py-8 rounded-r-[40px]"
+>
+  <p class="text-2xl text-white font-bold">Encreators💡</p>
+  <div class="mt-6 flex flex-1 flex-col justify-between">
+    <nav class="-mx-3 space-y-6">
+      <div class="space-y-3">
+        <% if (user && user.role == 'CLIENT') { %>
+
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/client/profile"
+        >
+          Profile
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/client/manage-services"
+        >
+          Products
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/client/client-projects"
+        >
+          Projects
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/user/chat"
+        >
+          Chats
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/auth/logout"
+        >
+          Logout
+        </a>
+        <% } %> <% if (user && user.role == 'ADMIN') { %>
+        <div class="space-y-3">
+          
+          <label class="px-3 text-sm font-semibold uppercase text-white">
+            Dashboard
+          </label>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/dashboard"
+          >
+            <span class="mx-2 text-sm font-medium">Dashboard</span>
+          </a>
+
+
+          <label class="px-3 text-sm font-semibold uppercase text-white">
+            Users
+          </label>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/users"
+          >
+            <span class="mx-2 text-sm font-medium">Manage Users</span>
+          </a>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/view-employees"
+          >
+            <span class="mx-2 text-sm font-medium">Manage Employees</span>
+          </a>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/clients"
+          >
+            <span class="mx-2 text-sm font-medium">Clients</span>
+          </a>
+        </div>
+        <div class="space-y-3">
+          <label class="px-3 text-sm font-semibold uppercase text-white">
+            Products and Dept
+          </label>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/manage-services"
+          >
+            <span class="mx-2 text-sm font-medium">Manage Services</span>
+          </a>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/manage-department"
+          >
+            <span class="mx-2 text-sm font-medium">Departments</span>
+          </a>
+        </div>
+        <div class="space-y-3">
+          <label class="px-3 text-sm font-semibold uppercase text-white">
+            Projects
+          </label>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/manage-requests"
+          >
+            <span class="mx-2 text-sm font-medium">Requests</span>
+          </a>
+          <a
+            class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+            href="/admin/employee-tickets"
+          >
+            <span class="mx-2 text-sm font-medium">Tickets</span>
+          </a>
+        </div>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/admin/payments"
+        >
+          Payments
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/auth/logout"
+        >
+          Logout
+        </a>
+        <% } %> <% if (user && user.role == 'EMPLOYEE') { %>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/employee/profile"
+        >
+          Profile
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/employee/employee-projects"
+        >
+          My Projects
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/user/empChat"
+        >
+          Chats
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/auth/logout"
+        >
+          Logout
+        </a>
+        <% } %> <% if (!user) { %>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/"
+        >
+          Home
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/auth/register"
+        >
+          Register
+        </a>
+        <a
+          class="flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700"
+          href="/auth/login"
+        >
+          Login
+        </a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+</aside>
+

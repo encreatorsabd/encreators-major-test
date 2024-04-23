@@ -1,0 +1,41 @@
+<%- include('layouts/header') %>
+
+<div class="p-4">
+    <p class="text-3xl font-bold mb-4">Project Requests</p>
+    <div class="overflow-x-auto">
+        <table class="table-auto border-collapse border">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border">User Email</th>
+                    <th class="border">Service Name</th>
+                    <th class="border">Department Name</th>
+                    <th class="border">Status</th>
+                    <!-- Add more columns if needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <% requests.forEach(request => { %>
+                    <tr class="bg-white">
+                        <td class="border px-4 py-2"><%= request.userEmail %></td>
+                        <td class="border px-4 py-2"><%= request.serviceName %></td>
+                        <td class="border px-4 py-2"><%= request.departmentName %></td>
+                        <td class="border px-4 py-2">
+                            <form action="/admin/updateRequest/<%= request._id %>" method="POST">
+                                <input type="hidden" name="requestId" value="<%= request._id %>">
+                                <select name="status" class="block w-full border rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="PENDING" <%= request.status === "PENDING" ? 'selected' : '' %>>Pending</option>
+                                    <option value="ONPROGRESS" <%= request.status === "ONPROGRESS" ? 'selected' : '' %>>ONPROGRESS</option>
+                                    <option value="FINISHED" <%= request.status === "FINISHED" ? 'selected' : '' %>>FINISHED</option>
+                                </select>
+                                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Update</button>
+                            </form>
+                        </td>
+                        <!-- Add more columns if needed -->
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('layouts/footer') %>

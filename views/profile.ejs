@@ -1,0 +1,14 @@
+<%- include('layouts/header')%>
+
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-4">Welcome <%= person.name %></h1>
+  <div class="bg-zinc-950 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
+    <h2 class="text-xl font-bold mb-4">User Information:</h2>
+    <p class="mb-4"><span class="font-semibold">Name: </span> <%= person.name %></p>
+    <p class="mb-4"><span class="font-semibold">Email: </span> <%= person.email %></p>
+    <p class="mb-4"><span class="font-semibold">Phone: </span> <%= person.phone %></p>
+  </div>
+</div>
+
+
+<%- include('layouts/footer')%>

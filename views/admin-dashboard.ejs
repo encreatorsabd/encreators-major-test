@@ -1,0 +1,44 @@
+<%- include ('layouts/header') %>
+
+<div class="projects-section-line p-8">
+    <h1 class="text-3xl font-bold mb-8">Project Overview</h1>
+
+    <div class="grid grid-cols-2 gap-8">
+        <div class="bg-white shadow rounded p-6">
+            <h2 class="text-xl font-semibold mb-4">Project Status</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-blue-500"><%= pendingProjects %></span>
+                    <span class="status-type text-gray-600">In Progress</span>
+                </div>
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-green-500"><%= runningProjects %></span>
+                    <span class="status-type text-gray-600">Upcoming</span>
+                </div>
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-blue-500"><%= totalProjects %></span>
+                    <span class="status-type text-gray-600">Total Projects</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow rounded p-6">
+            <h2 class="text-xl font-semibold mb-4">Company Overview</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-blue-500"><%= totalEmployees %></span>
+                    <span class="status-type text-gray-600">Total Employees</span>
+                </div>
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-green-500"><%= totalUsers %></span>
+                    <span class="status-type text-gray-600">Total Users</span>
+                </div>
+                <div class="item-status bg-gray-100 shadow rounded p-4">
+                    <span class="status-number text-2xl font-bold text-blue-500"><%= clientsCount %></span>
+                    <span class="status-type text-gray-600">Total Clients</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include ('layouts/footer') %>

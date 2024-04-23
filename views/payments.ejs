@@ -1,0 +1,45 @@
+<!-- payments.ejs -->
+
+<%- include('./layouts/header') %>
+
+<section>
+  <div class="container mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">Payment Records</h2>
+    <form action="/admin/payments" method="GET" class="mb-4">
+      <div class="flex items-center">
+        <label for="date" class="mr-2">Select Date:</label>
+        <input type="date" id="date" name="date" class="rounded-lg border-gray-300 border px-4 py-2 focus:outline-none focus:border-blue-400">
+        <button type="submit" class="ml-2 px-4 py-2 bg-zinc-950 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Filter</button>
+      </div>
+    </form>
+    
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 px-4 py-2">Customer Name</th>
+          <th class="border border-gray-300 px-4 py-2">Product Name</th>
+          <th class="border border-gray-300 px-4 py-2">Amount</th>
+          <th class="border border-gray-300 px-4 py-2">Phone Number</th>
+          <th class="border border-gray-300 px-4 py-2">Email</th>
+          <th class="border border-gray-300 px-4 py-2">Card Number</th>
+          <th class="border border-gray-300 px-4 py-2">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% payments.forEach(payment => { %>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.customerName %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.productName %></td>
+            <td class="border border-gray-300 px-4 py-2">$<%= payment.amount.toFixed(2) %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.phoneNumber %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.email %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.cardNumber %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= payment.createdAt.toLocaleTimeString() %></td> <!-- Display time only -->
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('./layouts/footer') %>

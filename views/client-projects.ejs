@@ -1,0 +1,37 @@
+<%- include('layouts/header') %>
+
+    <section class="mx-auto w-full max-w-7xl px-4 py-4 flex flex-col md:flex-row space-y-4 md:space-y-0">
+        <!-- Existing code remains the same -->
+        <div class="w-full md:w-1/2">
+            <h2 class="text-3xl font-bold text-black mb-4">My Projects</h2>
+            <div class="overflow-hidden border border-gray-300 rounded-lg shadow-md">
+                <table class="min-w-full divide-y divide-gray-300 bg-white">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">Project</th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">Employee</th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-semibold">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% clientProjects.forEach((project, index)=> { %>
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <%= project.serviceName %>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <%= project.employeeName %>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <%= project.employeePhone %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </section>
+
+    <%- include('layouts/footer') %>
