@@ -1,9 +1,4 @@
 const router = require('express').Router();
-// const bcrypt = require('bcrypt');
-// const { body, validationResult } = require('express-validator');
-// const { resetPasswordValidator } = require('../utils/validators');
-const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Require Stripe module
 const mongoose = require('mongoose');
 
 // Models

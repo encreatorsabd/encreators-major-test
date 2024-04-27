@@ -18,6 +18,7 @@ const Project = require("../models/projects.model");
 const Payment = require('../models/payment.model');
 
 
+
 //Dashboard
 
 router.get("/dashboard", async (req, res, next) => {
@@ -26,20 +27,23 @@ router.get("/dashboard", async (req, res, next) => {
     const employees = await Employee.find();
     const dept = await Department.find();
     const service = await Service.find();
-    const isPending = await Request.find({status: 'PENDING'});
-    const onProgress = await Request.find({status: 'ACCEPTED'});
+    const isPending = await Request.find({ status: 'PENDING' });
+    const onProgress = await Request.find({ status: 'ACCEPTED' });
     const projects = await Request.find();
 
     // Count users with the role as clients
     const clientsCount = await User.countDocuments({ role: 'CLIENT' });
 
-    res.render("admin-dashboard", { users, employees, dept, service, totalUsers: users.length, totalEmployees: employees.length, clientsCount, pendingProjects: isPending.length, runningProjects: onProgress.length, totalProjects: projects.length });
+    const payments = await Payment.find();
+    const totalRevenue = payments.reduce((acc, payment) => acc + payment.amount, 0);
+
+    res.render("admin-dashboard", { users, employees, dept, service, totalUsers: users.length, totalEmployees: employees.length, clientsCount, pendingProjects: isPending.length, runningProjects: onProgress.length, totalProjects: projects.length, totalRevenue });
   } catch (error) {
     console.log(error);
     req.flash("Internal Server Error");
     return res.redirect("back");
   }
-})
+});
 
 //💻clients Management Routes
 
@@ -373,7 +377,7 @@ router.post("/update-email/:email", async (req, res) => {
 
 
 //🚀POST route to update employee email
-router.post("/update-employee-password/:email",  async (req, res, next) => {
+router.post("/update-employee-password/:email", async (req, res, next) => {
   try {
     const { email } = req.params;
     console.log(email);
@@ -482,8 +486,48 @@ router.get("/manage-services", async (req, res, next) => {
 });
 
 
+// POST /admin/update-service-name/:serviceId
+router.post('/update-service-name/:serviceId', async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const newServiceName = req.body.newServiceName;
+    const service = await Service.findByIdAndUpdate(serviceId, { name: newServiceName }, { new: true });
+    res.redirect('back'); // Redirect to the services list page
+    req.flash('info','Service Details Updated');
+  } catch (error) {
+    console.error(error);
+    req.flash('error','Internal Server Error');
+  }
+});
+router.post('/update-service-desc/:serviceId', async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const newServiceDescription = req.body.description; // Changed from newServiceName to description
+    const service = await Service.findByIdAndUpdate(serviceId, { description: newServiceDescription }, { new: true });
+    res.redirect('back'); // Redirect to the services list page
+    req.flash('info','Service Details Updated');
+  } catch (error) {
+    console.error(error);
+    req.flash('error','Internal Server Error');
+  }
+});
+
+router.post('/update-service-price/:serviceId', async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const newServicePrice = req.body.newServicePrice; // Changed from newServiceName to newServicePrice
+    const service = await Service.findByIdAndUpdate(serviceId, { price: newServicePrice }, { new: true });
+    res.redirect('back'); // Redirect to the services list page
+    req.flash('info','Service Details Updated');
+  } catch (error) {
+    console.error(error);
+    req.flash('error','Internal Server Error');
+  }
+});
+
+
 // 🚀 POST route to add a service
-router.post('/add-service', async (req, res) => {
+router.post('/add-service', async (req, res, next) => {
   try {
     // Extract service details from the request body
     const { name, description, price, department } = req.body;
@@ -518,6 +562,9 @@ router.post('/add-service', async (req, res) => {
     return res.redirect("back");
   }
 });
+
+
+
 
 
 // Route for deleting a service with name verification
@@ -588,18 +635,6 @@ router.post('/add-departments', async (req, res, next) => {
 
 //💻Request Management Routes
 
-//🚀Requests
-// router.get("/manage-requests", async(req, res, next) => {
-//   try{
-//     const requests = await Request.find().sort({updatedAt: -1});
-//     const services = await Service.find();
-//     const dept = await Department.find();
-//     const user = await User.find();
-//     res.render("admin-requests", {requests, services, dept, user});
-//   }catch(error){
-//     next(error);
-//   }
-// });
 //🚀Requests
 router.get("/manage-requests", async (req, res, next) => {
   try {
@@ -680,7 +715,7 @@ router.get('/client-projects', async (req, res, next) => {
 router.post('/allot-request', async (req, res, next) => {
   try {
     const { requestId, requestUserID, departmentId, employeeId } = req.body;
-    
+
     // Convert string IDs to MongoDB ObjectId
     const client = await User.findById(requestUserID); // Assuming requestUserID is already a MongoDB ObjectId
     const department = await Department.findById(departmentId); // Assuming departmentId is already a MongoDB ObjectId
@@ -706,6 +741,7 @@ router.post('/allot-request', async (req, res, next) => {
       comp_id: employee.employeeId,
       employeeName: employee.name,
       employeePhone: employee.phone,
+      employeeEmail: employee.email,
       serviceId: request.serviceId,
       serviceName: request.serviceName,
       requestId: requestId, // Corrected the attribute name to match the schema
@@ -751,6 +787,6 @@ router.get('/payments', async (req, res, next) => {
 });
 
 
-
+// Route to handle updating a service
 
 module.exports = router;

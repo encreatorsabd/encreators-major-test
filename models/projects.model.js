@@ -31,6 +31,10 @@ const ProjectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    employeeEmail: {
+        type: String,
+        required: true,
+    },
     serviceId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service', // Assuming Service model exists

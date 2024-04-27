@@ -1,10 +1,9 @@
-<!-- chat.ejs -->
 
 <%- include('layouts/header') %>
 
 <div class="flex p-4">
   <div class="w-1/2 mr-4">
-    <form action="/user/send" method="POST">
+    <form action="/user/client-send" method="POST">
       <label for="toAddress" class="block text-gray-700">To Address:</label>
       <select id="toAddress" name="toUserId" class="w-full border rounded-lg px-4 py-2 mb-4">
         <% users.forEach(user => { %>
